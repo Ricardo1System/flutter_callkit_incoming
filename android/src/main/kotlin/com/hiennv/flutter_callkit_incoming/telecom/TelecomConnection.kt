@@ -72,6 +72,7 @@ class TelecomConnection internal constructor(private val context: Context, priva
 		super.onReject()
 		setDisconnected(DisconnectCause(DisconnectCause.REJECTED))
 		TelecomUtilities.logToFile("[TelecomConnection] onReject")
+		context.sendBroadcast(CallkitIncomingBroadcastReceiver.getIntentDecline(context, bundleOf(*data.toList().toTypedArray())))
 		endCall()
 		TelecomUtilities.logToFile("[TelecomConnection] onReject executed")
 	}
