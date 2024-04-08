@@ -70,6 +70,13 @@ class TelecomConnection internal constructor(private val context: Context, priva
 
 	override fun onReject() {
 		super.onReject()
+		val uuid = handle[EXTRA_CALLKIT_ID] ?: ""
+		val data: Map<String, Any> = object : HashMap<String, Any>() {
+			init {
+				put("event", ACTION_CALL_ACCEPT)
+				put(EXTRA_CALLKIT_ID, uuid)
+			}
+		}
 		setDisconnected(DisconnectCause(DisconnectCause.REJECTED))
 		TelecomUtilities.logToFile("[TelecomConnection] onReject")
 		context.sendBroadcast(CallkitIncomingBroadcastReceiver.getIntentDecline(context, bundleOf(*data.toList().toTypedArray())))
