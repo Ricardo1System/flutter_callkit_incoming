@@ -309,6 +309,10 @@ class CallkitIncomingActivity : Activity() {
 
     private fun onDeclineClick() {
         val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA)
+            // Creando la intención para rechazar la llamada de manera silenciosa
+        val rejectIntent = TransparentActivity.getIntent(this, CallkitConstants.ACTION_CALL_DECLINE, data)
+        startActivity(rejectIntent)
+           // Envía el broadcast para notificar el rechazo de la llamada
         val intent = CallkitIncomingBroadcastReceiver.getIntentDecline(this@CallkitIncomingActivity, data)
         sendBroadcast(intent)
         finishTask()
