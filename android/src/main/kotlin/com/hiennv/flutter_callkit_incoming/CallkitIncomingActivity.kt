@@ -309,10 +309,16 @@ class CallkitIncomingActivity : Activity() {
 
     private fun onDeclineClick() {
         val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA)
-        val declineIntent = TransparentActivity.getIntent(this, CallkitConstants.ACTION_CALL_DECLINE, data)
-        // val intent = CallkitIncomingBroadcastReceiver.getIntentDecline(this@CallkitIncomingActivity, data)
-        sendBroadcast(declineIntent)
-        finishTask()
+        val acceptIntent = TransparentActivity.getIntent(this, CallkitConstants.ACTION_CALL_DECLINE, data)
+        startActivity(acceptIntent)
+
+        dismissKeyguard()
+        finish()
+        // val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA)
+        // val declineIntent = TransparentActivity.getIntent(this, CallkitConstants.ACTION_CALL_DECLINE, data)
+        // // val intent = CallkitIncomingBroadcastReceiver.getIntentDecline(this@CallkitIncomingActivity, data)
+        // sendBroadcast(declineIntent)
+        // finishTask()
     }
 
     private fun finishDelayed() {
