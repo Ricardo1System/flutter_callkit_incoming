@@ -309,16 +309,9 @@ class CallkitIncomingActivity : Activity() {
 
     private fun onDeclineClick() {
         val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA)
-        val acceptIntent = TransparentActivity.getIntent(this, CallkitConstants.ACTION_CALL_DECLINE, data)
-        startActivity(acceptIntent)
-
-        dismissKeyguard()
-        finish()
-        // val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA)
-        // val declineIntent = TransparentActivity.getIntent(this, CallkitConstants.ACTION_CALL_DECLINE, data)
-        // // val intent = CallkitIncomingBroadcastReceiver.getIntentDecline(this@CallkitIncomingActivity, data)
-        // sendBroadcast(declineIntent)
-        // finishTask()
+        val intent = CallkitIncomingBroadcastReceiver.getIntentDecline(this@CallkitIncomingActivity, data)
+        sendBroadcast(intent)
+        finishTask()
     }
 
     private fun finishDelayed() {
@@ -328,11 +321,11 @@ class CallkitIncomingActivity : Activity() {
     }
 
     private fun finishTask() {
-        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        //     finishAndRemoveTask()
-        // } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAndRemoveTask()
+        } else {
             finish()
-        // }
+        }
     }
 
     private fun getPicassoInstance(context: Context, headers: HashMap<String, Any?>): Picasso {
