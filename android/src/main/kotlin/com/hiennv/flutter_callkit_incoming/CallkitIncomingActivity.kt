@@ -321,11 +321,11 @@ class CallkitIncomingActivity : Activity() {
     }
 
     private fun finishTask() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAndRemoveTask()
-        } else {
+        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        //     finishAndRemoveTask()
+        // } else {
             finish()
-        }
+        // }
     }
 
     private fun getPicassoInstance(context: Context, headers: HashMap<String, Any?>): Picasso {
