@@ -45,7 +45,7 @@ class CallKitParams {
   final IOSParams? ios;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final Function(String reason)? onDecline;
+  final Function(Map<String, String> arguments)? onDecline;
 
   factory CallKitParams.fromJson(Map<String, dynamic> json) =>
       _$CallKitParamsFromJson(json);
