@@ -37,7 +37,8 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
                     action = "${context.packageName}.${CallkitConstants.ACTION_CALL_ACCEPT}"
                     putExtra(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA, data)
                 }
-
+        // es una función Kotlin diseñada para crear y configurar un Intent específicamente
+        //para la acción de rechazar una llamada
         fun getIntentDecline(context: Context, data: Bundle?) =
                 Intent(context, CallkitIncomingBroadcastReceiver::class.java).apply {
                     action = "${context.packageName}.${CallkitConstants.ACTION_CALL_DECLINE}"
@@ -75,12 +76,18 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
                 }
     }
 
-
+    //indica que se ignora la advertencia de permisos faltantes en este método. Esto se usa porque algunas acciones
+    //pueden requerir permisos que no se han comprobado explícitamente en el código.
     @SuppressLint("MissingPermission")
+    //Este método se sobrescribe para recibir y manejar los Intents enviados al BroadcastReceiver.
     override fun onReceive(context: Context, intent: Intent) {
+        //Este probablemente sea un ayudante para gestionar las notificaciones de llamadas.
         val callkitNotificationManager = CallkitNotificationManager(context)
+        //Se recupera la acción
         val action = intent.action ?: return
+        //Se recupera la data
         val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA) ?: return
+        //Se manejan diferentes acciones dependiendo de la accion
         when (action) {
             "${context.packageName}.${CallkitConstants.ACTION_CALL_INCOMING}" -> {
                 try {
@@ -123,7 +130,8 @@ class CallkitIncomingBroadcastReceiver : BroadcastReceiver() {
                     sendEventFlutter(CallkitConstants.ACTION_CALL_DECLINE, data)
                     context.stopService(Intent(context, CallkitSoundPlayerService::class.java))
                     callkitNotificationManager.clearIncomingNotification(data, false)
-                    removeCall(context, Data.fromBundle(data))
+                    // removeCall(context, Data.fromBundle(data))
+                    addCall(context, Data.fromBundle(data), false)
                 } catch (error: Exception) {
                     Log.e(TAG, null, error)
                 }

@@ -308,9 +308,19 @@ class CallkitIncomingActivity : Activity() {
     }
 
     private fun onDeclineClick() {
+        //Aquí, intent.extras obtiene los datos adjuntos al Intent que inició la actividad. Usando el
+        //método getBundle con la clave CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA, intenta recuperar
+        //un conjunto de datos adicionales que fueron pasados a esta actividad, posiblemente conteniendo
+        //información sobre la llamada entrante que se está rechazando.
         val data = intent.extras?.getBundle(CallkitConstants.EXTRA_CALLKIT_INCOMING_DATA)
+        //Esta línea crea un nuevo Intent utilizando un método estático getIntentDecline de la clase
+        //CallkitIncomingBroadcastReceiver. 
         val intent = CallkitIncomingBroadcastReceiver.getIntentDecline(this@CallkitIncomingActivity, data)
+        //Envía el Intent creado como un Broadcast a través del sistema, lo que permite que cualquier
+        //componente registrado en la aplicación para escuchar este tipo específico de Broadcast pueda
+        //recibirlo y actuar en consecuencia.
         sendBroadcast(intent)
+        //Llama un metodo para terminar la actividad pero dependiendo del nivel de versión
         finishTask()
     }
 
